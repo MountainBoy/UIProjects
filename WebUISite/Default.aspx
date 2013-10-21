@@ -151,7 +151,10 @@
         </fieldset>
         <fieldset>
             <legend>Dropdown List</legend>
-            <div id="_DropdownModal" style="border: 1px solid green; padding: 10px; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
+            <div style="padding-top: 640px; padding-bottom: 640px;">
+                <label id="msg" style="padding: 64px; font-size: large; color: aquamarine;"></label>
+                <div id="_DropdownModal" style="border: 1px solid green; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
+            </div>
             <script type="text/javascript">
                 var DroDro = function (input, items) {
                     this.Items = { "Items": [{ "k": "k1", "v": "v1" }] };
@@ -167,9 +170,8 @@
                     if (input == undefined || target == "") {
                         throw new exception("没有提供选择框");
                     }
-                    var container = '<div id="DropdownModal_' + input + '" style="width: ' + this.Width + '; height: auto;"></div>';
+                    var container = '<div id="DropdownModal_' + input + '" style="width: ' + this.Width + 'px; height: auto; opacity: 0; border: 1px solid #beb2b2;"></div>';
                     this.Container = jQuery(container);
-                    this.Container.css("width", this.Width).css("height", "auto").css("display", "none");
 
                     this.Init = function () {
                         var _item = '<label id="Label0" class="kv" k="" v="">abc</label>';
@@ -181,29 +183,34 @@
                         var _Size = this.Size;
                         var _MultiChoice = this.MultiChoice;
                         var _Input = this.Input;
+
                         if (this.Items.length > 0) {
                             var _flag = 1;
                             jQuery(this.Items).each(function (index) {
                                 var _selected = (this.s == true) ? true : false;
                                 var _id = input + '_Drop_' + index;
                                 var it = '<span id="' + _id + '" class="' + input + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '">' + this.v + '</span>';
+
                                 if (_selected == true) {
                                     _SelectedItems.push(_id);
                                     _SelectedValues.push(this.k);
                                     it = '<span id="' + _id + '" class="' + input + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '" style="border: 1px solid red;">' + this.v + '</span>';
                                 }
+
                                 if (_flag++ == _Size) {
                                     it += "<br />";
                                     _flag = 1;
                                 }
+
                                 jQuery(it).appendTo(_Container);
 
-                                jQuery("#" + _id).bind("click", function () {
+                                jQuery("#" + _id).live("click", function () {
                                     if (jQuery(this).attr("status") == "false") {
                                         if (_MultiChoice == false) {
                                             jQuery("." + input).attr("status", false).css("border", "1px solid #beb2b2");
                                             _SelectedItems.splice(0, _SelectedItems.length);
                                             _SelectedValues.splice(0, _SelectedValues.length);
+                                            _Input.html("");
                                         }
                                         jQuery(this).attr("status", true).css("border", "solid 1px red");
                                         _SelectedItems.push(jQuery(this).attr("id"));
@@ -215,6 +222,7 @@
                                         _SelectedItems.splice(_index, 1);
                                         _SelectedValues.splice(_index, 1);
                                     }
+                                    _Input.html(_SelectedValues.join(";"));
                                     jQuery("#msg").html(_SelectedItems.length);
                                 });
                             });
@@ -222,8 +230,15 @@
                         }
 
                         _Input.click(function (e) {
-                            _Container.css("display", "");
-                            jQuery("#msg").html("OK");
+                            _Container.animate({ opacity: 1 }, function () {
+                                jQuery("#msg").html("Finished");
+                            });
+                        });
+
+                        _Container.mou(function (e) {
+                            _Container.animate({ opacity: 0 }, function () {
+                                jQuery("#msg").html("Finished");
+                            });
                         });
                     }
                 }
@@ -247,7 +262,7 @@
                         ]
                 };
                 var drop = new DroDro("_DropdownModal", _items.Items);
-                drop.MultiChoice = false;
+                drop.MultiChoice = true;
                 drop.Size = 24;
                 drop.Init();
 
@@ -276,7 +291,7 @@
                 <label id="Label2" class="kv" k="" v="">abc</label>
                 <label id="Label3" class="kv" k="" v="">abc</label>
             </div>
-            --%><label id="msg" style="padding: 64px; font-size: large; color: aquamarine;"></label>
+            --%>
         </fieldset>
     </form>
 </body>
