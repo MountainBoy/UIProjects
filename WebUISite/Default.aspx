@@ -153,22 +153,6 @@
             <legend>Dropdown List</legend>
             <div id="_DropdownModal" style="border: 1px solid red; padding: 10px; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
             <script type="text/javascript">
-                var person = {
-                    "?xml": { "@version": "1.0", "@encoding": "utf-8" },
-                    "TWS": {
-                        "person": [
-                { "id": { "@sex": "male", "#text": "1" }, "name": "AAA", "weight": "45", "phone": "6543217", "joinData": "2012.05.21", "description": "AAA is AAA and AAA isn't BBB" },
-                { "id": { "@sex": "female", "#text": "2" }, "name": "BBB", "phone": "2587945", "weight": "50", "joinData": "2012.06.21", "description": "BBB is BBB and BBB isn't AAA" }
-                        ]
-                    }
-                };
-                //var PPP = person.TWS;
-                //alert(PPP.person[1].id["@sex"]);
-                //alert(PPP.person[0].name);
-                //PPP = person["?xml"];
-                //alert(PPP["@version"]);
-            </script>
-            <script type="text/javascript">
                 var Dropdown = function (container, items) {
                     this.Items = { "Items": [{ "k": "k1", "v": "v1" }] };
                     this.Keys = new Array();
