@@ -151,43 +151,46 @@
         </fieldset>
         <fieldset>
             <legend>Dropdown List</legend>
-            <div id="_DropdownModal" style="border: 1px solid red; padding: 10px; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
+            <div id="_DropdownModal" style="border: 1px solid green; padding: 10px; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
             <script type="text/javascript">
-                var Dropdown = function (container, items) {
+                var DroDro = function (input, items) {
                     this.Items = { "Items": [{ "k": "k1", "v": "v1" }] };
-                    this.Keys = new Array();
-                    this.Values = new Array();
-                    this.Key = null;
-                    this.Value = null;
                     this.SelectedItems = new Array();
+                    this.SelectedValues = new Array();
                     this.Size = 5;
                     this.Items = items;
                     this.MultiChoice = false;
+                    this.Width = 320;
+                    this.Height = 240;
+                    this.Input = jQuery("#" + input);
 
-                    if (container == undefined || container == "") {
-                        container = 'DropdownModal';//
-                        var _container = jQuery("");
-                        _container.add('<div id="' + 'DropdownModal' + '" style="border: 1px solid red;">YYYYYYYYYYYYYYYYYYYYYYYYYYYY</div>').appendTo(document.body);
+                    if (input == undefined || target == "") {
+                        throw new exception("没有提供选择框");
                     }
-                    this.Container = jQuery("#" + container);
+                    var container = '<div id="DropdownModal_' + input + '" style="width: ' + this.Width + '; height: auto;"></div>';
+                    this.Container = jQuery(container);
+                    this.Container.css("width", this.Width).css("height", "auto").css("display", "none");
 
                     this.Init = function () {
                         var _item = '<label id="Label0" class="kv" k="" v="">abc</label>';
-                        var br = '<br />';
+                        var _br = '<br />';
 
                         var _Container = this.Container;
                         var _SelectedItems = this.SelectedItems;
-                        var _MultiChoice = this.MultiChoice;
+                        var _SelectedValues = this.SelectedValues;
                         var _Size = this.Size;
+                        var _MultiChoice = this.MultiChoice;
+                        var _Input = this.Input;
                         if (this.Items.length > 0) {
                             var _flag = 1;
                             jQuery(this.Items).each(function (index) {
                                 var _selected = (this.s == true) ? true : false;
-                                var _id = container + '_Drop_' + index;
-                                var it = '<span id="' + _id + '" class="' + container + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '">' + this.v + '</span>';
+                                var _id = input + '_Drop_' + index;
+                                var it = '<span id="' + _id + '" class="' + input + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '">' + this.v + '</span>';
                                 if (_selected == true) {
                                     _SelectedItems.push(_id);
-                                    it = '<span id="' + _id + '" class="' + container + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '" style="border: 1px solid red;">' + this.v + '</span>';
+                                    _SelectedValues.push(this.k);
+                                    it = '<span id="' + _id + '" class="' + input + '" k="' + this.k + '" v="' + this.v + '" status="' + _selected + '" style="border: 1px solid red;">' + this.v + '</span>';
                                 }
                                 if (_flag++ == _Size) {
                                     it += "<br />";
@@ -198,21 +201,30 @@
                                 jQuery("#" + _id).bind("click", function () {
                                     if (jQuery(this).attr("status") == "false") {
                                         if (_MultiChoice == false) {
-                                            jQuery("." + container).attr("status", false).css("border", "1px solid #beb2b2");
+                                            jQuery("." + input).attr("status", false).css("border", "1px solid #beb2b2");
                                             _SelectedItems.splice(0, _SelectedItems.length);
+                                            _SelectedValues.splice(0, _SelectedValues.length);
                                         }
                                         jQuery(this).attr("status", true).css("border", "solid 1px red");
                                         _SelectedItems.push(jQuery(this).attr("id"));
+                                        _SelectedValues.push(jQuery(this).attr("v"));
                                     }
                                     else {
                                         jQuery(this).attr("status", false).css("border", "solid 1px #beb2b2");
                                         var _index = _SelectedItems.indexOf(jQuery(this).attr("id"));
                                         _SelectedItems.splice(_index, 1);
+                                        _SelectedValues.splice(_index, 1);
                                     }
                                     jQuery("#msg").html(_SelectedItems.length);
                                 });
                             });
+                            _Input.parent().append(_Container);
                         }
+
+                        _Input.click(function (e) {
+                            _Container.css("display", "");
+                            jQuery("#msg").html("OK");
+                        });
                     }
                 }
             </script>
@@ -225,31 +237,16 @@
                             { "k": "k3", "v": "v3", "s": false },
                             { "k": "k4", "v": "v4v4v4v4v4v4v4v4v4v4v4v4v4", "s": false },
                             { "k": "k5", "v": "v5", "s": false },
+                            { "k": "k6", "v": "v6", "s": false },
+                            { "k": "k7", "v": "v7", "s": false },
+                            { "k": "k8", "v": "v8", "s": false },
+                            { "k": "k9", "v": "v9", "s": false },
+                            { "k": "k10", "v": "10", "s": false },
+                            { "k": "k11", "v": "v11", "s": false },
+                            { "k": "k12", "v": "v12", "s": false }
                         ]
                 };
-                //_items =
-                //        [
-                //            { "k": "k1", "v": "v1" },
-                //            { "k": "k2", "v": "v2" },
-                //            { "k": "k3", "v": "v3" }
-                //        ];
-                var t = {
-                    "t":
-                        {
-                            "p":
-                                [
-                                    {
-                                        "id": "iid",
-                                        "name": "nname"
-                                    },
-                                    {
-                                        "id": "iiid",
-                                        "name": "nnname"
-                                    }
-                                ]
-                        }
-                };
-                var drop = new Dropdown("_DropdownModal", _items.Items);
+                var drop = new DroDro("_DropdownModal", _items.Items);
                 drop.MultiChoice = false;
                 drop.Size = 24;
                 drop.Init();
@@ -273,13 +270,13 @@
                     padding: 10px;
                 }
             </style>
-            <div id="DropdownModal">
+<%--            <div id="DropdownModal">
                 <label id="Label0" class="kv" k="" v="">abc</label>
                 <label id="Label1" class="kv" k="" v="">abc</label>
                 <label id="Label2" class="kv" k="" v="">abc</label>
                 <label id="Label3" class="kv" k="" v="">abc</label>
             </div>
-            <label id="msg" style="padding: 64px; font-size: large; color: aquamarine;"></label>
+            --%><label id="msg" style="padding: 64px; font-size: large; color: aquamarine;"></label>
         </fieldset>
     </form>
 </body>
