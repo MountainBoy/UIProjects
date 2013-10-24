@@ -153,7 +153,9 @@
             <legend>Dropdown List</legend>
             <div style="padding-top: 640px; padding-bottom: 640px;">
                 <label id="msg" style="padding: 64px; font-size: large; color: aquamarine;"></label>
-                <div id="_DropdownModal" style="border: 1px solid green; width: 320px;"><!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />--></div>
+                <div id="_DropdownModal" style="border: 1px solid green; width: 320px;">
+                    <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />-->
+                </div>
             </div>
             <script type="text/javascript">
                 var DroDro = function (input, items) {
@@ -170,7 +172,7 @@
                     if (input == undefined || target == "") {
                         throw new exception("没有提供选择框");
                     }
-                    var container = '<div id="DropdownModal_' + input + '" style="width: ' + this.Width + 'px; height: auto; opacity: 0; border: 1px solid #beb2b2;"></div>';
+                    var container = '<div id="DropdownModal_' + input + '" style="width: ' + this.Width + 'px; height: auto; opacity: 0; border: 1px solid #beb2b2; display: none;"></div>';
                     this.Container = jQuery(container);
 
                     this.Init = function () {
@@ -183,6 +185,8 @@
                         var _Size = this.Size;
                         var _MultiChoice = this.MultiChoice;
                         var _Input = this.Input;
+                        var _Width = this.Width;
+                        var _Height = this.Height;
 
                         if (this.Items.length > 0) {
                             var _flag = 1;
@@ -230,15 +234,15 @@
                         }
 
                         _Input.click(function (e) {
-                            _Container.animate({ opacity: 1 }, function () {
-                                jQuery("#msg").html("Finished");
-                            });
+                            if (!_Container.is(":animated")) {
+                                _Container.animate({ opacity: 1 }).show();
+                            }
                         });
 
-                        _Container.mou(function (e) {
-                            _Container.animate({ opacity: 0 }, function () {
-                                jQuery("#msg").html("Finished");
-                            });
+                        _Container.mouseleave(function (e) {
+                            if (!_Container.is(":animated")) {
+                                _Container.animate({ opacity: 0 }).hide();
+                            }
                         });
                     }
                 }
@@ -265,7 +269,6 @@
                 drop.MultiChoice = true;
                 drop.Size = 24;
                 drop.Init();
-
             </script>
             <style type="text/css">
                 ._DropdownModal {
@@ -276,16 +279,16 @@
                     display: inline-block;
                 }
 
-                ._DropdownModal:hover {
-                    background-color: #ffef73;
-                }
+                    ._DropdownModal:hover {
+                        background-color: #ffef73;
+                    }
 
                 #msg {
                     color: red;
                     padding: 10px;
                 }
             </style>
-<%--            <div id="DropdownModal">
+            <%--            <div id="DropdownModal">
                 <label id="Label0" class="kv" k="" v="">abc</label>
                 <label id="Label1" class="kv" k="" v="">abc</label>
                 <label id="Label2" class="kv" k="" v="">abc</label>
