@@ -25,6 +25,16 @@
 <body>
     <form id="form1" runat="server">
         <fieldset>
+            <legend>file</legend>
+            <input type="file" name="Tfile" id="Tfile" /><input type="button" id="fileLook" />
+            <script type="text/javascript">
+                jQuery("#fileLook").click(function (e) {
+                    alert(jQuery("#Tfile").val());
+                    jQuery("#Tfile").val("XXX");
+                });
+            </script>
+        </fieldset>
+        <fieldset>
             <legend>add()</legend>
             <div id="target">target</div>
             <div id="footdiv">footer</div>

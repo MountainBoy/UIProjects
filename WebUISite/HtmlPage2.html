@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <script type="text/ecmascript">
+        var beginMoving = false;
+        function MouseDownToMove(obj) {
+            obj.style.zIndex = 1;
+            obj.mouseDownY = event.clientY;
+            obj.mouseDownX = event.clientX;
+            beginMoving = true;
+            obj.setCapture();
+        }//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+        function MouseMoveToMove(obj) {
+            if (!beginMoving) return false;
+            obj.style.top = (event.clientY - obj.mouseDownY);
+            obj.style.left = (event.clientX - obj.mouseDownX);
+        }
+        function MouseUpToMove(obj) {
+            if (!beginMoving) return false;
+            obj.releaseCapture();
+            obj.style.top = 0;
+            obj.style.left = 0;
+            obj.style.zIndex = 0;
+            beginMoving = false;
+            var tempTop = event.clientY - obj.mouseDownY;
+            var tempRowIndex = (tempTop - tempTop % 25) / 25;
+            if (tempRowIndex + obj.rowIndex < 0) tempRowIndex = -1;
+            else tempRowIndex = tempRowIndex + obj.rowIndex;
+            if (tempRowIndex >= obj.parentElement.rows.length - 1) tempRowIndex = obj.parentElement.rows.length - 1;
+            obj.parentElement.moveRow(obj.rowIndex, tempRowIndex);
+        }//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+    </script>
+    <a href="<#ZC_BLOG_HOST#>">站长特效网</a>,站长必备的高质量网页特效和广告代码。zzjs.net，站长js特效。<hr>
+    <!--欢迎来到站长特效网，我们网站收集大量高质量js特效，提供许多广告代码下载，网址：www.zzjs.net，zzjs@msn.com,用.net打造靓站-->
+    <table width="300" border="1">
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td bgcolor="blue">0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td bgcolor="black">1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td bgcolor="red">2</td>
+            <td>2</td>
+            <td>2</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td>6</td>
+            <td>6</td>
+            <td>6</td>
+        </tr>
+        <tr bgcolor="#ffffff" style='height: 25px; position: relative;' onmousedown='MouseDownToMove(this)' onmousemove='MouseMoveToMove(this)' onmouseup='MouseUpToMove(this);'>
+            <td>7</td>
+            <td>7</td>
+            <td>7</td>
+        </tr>
+    </table>
+</body>
+</html>

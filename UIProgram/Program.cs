@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,40 @@ using System.Threading.Tasks;
 
 namespace UIProgram
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            WeriteCharString();
+
+            Console.WriteLine(Console.ReadKey(true));
+            //for (int i = 1; i < 10; i++)
+            //{
+            //    for (int j = 1; j < i + 1; j++)
+            //    {
+            //        Console.Write(" {0}x{1}={2}{3}", j, i, i * j, (i == j) ? "\r\n" : "");
+            //    }
+            //}
+
+            //Tree
+            var t1 = Tree.Default;
+            var t2 = Tree.Default;
+            if (t1 == t2)
+            {
+                t1.GrowUp();
+            }
+            else
+            {
+                t1.Drink();
+            }
+
+            BigTree bt = new BigTree() { Name = "BigTree" };
+            bt.GrowUp();
+            bt.SayHi();
+            bt.SayHi<BigTree, BigTree>(bt, bt);
+            //Dead Tree
+
+            Console.ReadKey();
             // Note that each lambda expression has no parameters.
             LazyValue<int> lazyOne = new LazyValue<int>(() => ExpensiveOne());
             LazyValue<long> lazyTwo = new LazyValue<long>(() => ExpensiveTwo("apple"));
@@ -21,9 +52,9 @@ namespace UIProgram
             Console.WriteLine(lazyTwo.Value);
 
             #region
-            IList<Person> Persons = new List<Person>() { new Person { ID = 1, Name = "A", Code = "1;2;3;4;5;6;7;" }, new Person { ID = 2, Name = "B", Code = "0;1;2;3;4;5;6;7;" }, new Person { ID = 3, Name = "C", Code = "-1;0;1;2;3;4;5;6;7;" }, new Person { ID = 4, Name = "D", Code = "-1;0;1;2;3;4;5;6;7;" } };
-            MyValue<Person> myValue = new MyValue<Person>();
-            var codeA = myValue.Getter((ps) => ps.Select((p) => p.Code).Distinct(), Persons);
+            IList<App> apps = new List<App>() { new App { ID = 1, Name = "A", Code = "1;2;3;4;5;6;7;" }, new App { ID = 2, Name = "B", Code = "0;1;2;3;4;5;6;7;" }, new App { ID = 3, Name = "C", Code = "-1;0;1;2;3;4;5;6;7;" }, new App { ID = 4, Name = "D", Code = "-1;0;1;2;3;4;5;6;7;" } };
+            MyValue<App> myValue = new MyValue<App>();
+            var codeA = myValue.Getter((ps) => ps.Select((p) => p.Code).Distinct(), apps);
             Console.WriteLine(myValue.Getter((cs) =>
             {
                 var result = "";
@@ -50,11 +81,31 @@ namespace UIProgram
             {
                 Console.Write("[{0}] ", c);
             } Console.WriteLine();
-            codeS = myValue.NewGetter((ps) => ps.Select((p) => p.Code).Distinct(), Persons);
+            codeS = myValue.NewGetter((ps) => ps.Select((p) => p.Code).Distinct(), apps);
             Console.WriteLine(codeS);
             #endregion
 
             Console.ReadKey(true);
+        }
+
+        private static void WeriteCharString()
+        {
+            int n = 0;
+            for (int ctr = 0x20; ctr <= 0x017F; ctr++)
+            {
+                string string1 = Convert.ToChar(ctr).ToString();
+                string upperString = string1.ToUpper();
+                if (string1 != upperString)
+                {
+                    Console.Write(@"{0} (\u+{1}) --> {2} (\u+{3})         ",
+                                  string1,
+                                  Convert.ToUInt16(string1[0]).ToString("X4"),
+                                  upperString,
+                                  Convert.ToUInt16(upperString[0]).ToString("X4"));
+                    n++;
+                    if (n % 2 == 0) Console.WriteLine();
+                }
+            }
         }
 
         static int ExpensiveOne()
@@ -70,7 +121,7 @@ namespace UIProgram
         }
     }
 
-    class MyValue<T>
+    public class MyValue<T>
     {
         private Func<IList<T>, IEnumerable<string>> GetObject;
         public string[] Getter(Func<IList<T>, IEnumerable<string>> func, IList<T> ts)
@@ -104,14 +155,14 @@ namespace UIProgram
         }
     }
 
-    class Person
+    public class App
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
     }
 
-    class LazyValue<T> where T : struct
+    public class LazyValue<T> where T : struct
     {
         private Nullable<T> val;
         private Func<T> getValue;
