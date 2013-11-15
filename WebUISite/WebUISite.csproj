@@ -212,10 +212,12 @@
     <Content Include="Scripts\jquery-1.8.0.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.ui.core.js" />
     <Content Include="Scripts\jquery.ui.mouse.js" />
     <Content Include="Scripts\jquery.ui.sortable.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Uploader.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebForm2.aspx" />
@@ -229,8 +231,18 @@
     <Compile Include="Baidu.aspx.designer.cs">
       <DependentUpon>Baidu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FileSaver.ashx.cs">
+      <DependentUpon>FileSaver.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Location.ashx.cs">
       <DependentUpon>Location.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Uploader.aspx.cs">
+      <DependentUpon>Uploader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Uploader.aspx.designer.cs">
+      <DependentUpon>Uploader.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm2.aspx.cs">
       <DependentUpon>WebForm2.aspx</DependentUpon>
@@ -271,6 +283,7 @@
     <Content Include="custom_sortable\development-bundle\ui.sortable.jquery.json" />
     <Content Include="custom_sortable\development-bundle\ui.widget.jquery.json" />
     <Content Include="Location.ashx" />
+    <Content Include="FileSaver.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -280,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="temp\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
