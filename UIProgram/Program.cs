@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +13,19 @@ namespace UIProgram
     {
         public static void Main(string[] args)
         {
-            WeriteCharString();
+            Console.WriteLine("{0, 32:\t}", "ShitCode");
+            Console.WriteLine("Program {0, 32:\t}", "ShitCode");
+            TMethod tm = new TMethod();
+            Console.WriteLine(tm.GetShit<TModel>());
+            //Console.WriteLine(tm.GetShit<ITBase>());
+            TModel t = new TModel() { ID = int.MaxValue, Name = "ShitOne" };
+            Console.WriteLine(tm.GetShit<TModel>(t));
+            Console.WriteLine(tm.GetT<TModel>().Shit());
+            Console.ReadKey(true);
+            //VaryQualityLevel();
+            PictureAttributesMaker();
+            Console.ReadKey(true);
+            WriteCharString();
 
             Console.WriteLine(Console.ReadKey(true));
             //for (int i = 1; i < 10; i++)
@@ -88,7 +102,96 @@ namespace UIProgram
             Console.ReadKey(true);
         }
 
-        private static void WeriteCharString()
+        private static void PictureAttributesMaker()
+        {
+            using (Bitmap img = new Bitmap(320, 240))
+            {
+                using (Graphics g = Graphics.FromImage(img))
+                {
+                    g.Clear(Color.Bisque);
+
+                    //var comment = "www.baidu.com";
+                    //char[] chars = comment.ToCharArray();
+                    //var len = chars.Length;
+                    //byte[] buffer = new byte[len];
+                    //Encoding e = Encoding.Default;
+                    //System.Text.Encoder en = e.GetEncoder();
+                    //int count = en.GetBytes(chars, 0, len, buffer, 0, true);
+
+                    ImageCodecInfo info = GetEncoder(ImageFormat.Gif);
+                    EncoderParameters eps = new EncoderParameters(1);
+
+                    System.Drawing.Imaging.Encoder sEn = System.Drawing.Imaging.Encoder.SaveFlag;
+                    EncoderParameter mep = new EncoderParameter(sEn, (long)(EncoderValue.FrameDimensionTime));//100L);//
+                    eps.Param[0] = mep;
+
+                    //System.Drawing.Imaging.Encoder cEn = System.Drawing.Imaging.Encoder.Compression;
+                    //EncoderParameter gep = new EncoderParameter(cEn, (long)(EncoderValue.VersionGif89));//100L);//
+                    //eps.Param[1] = gep;
+
+                    img.Save("C:\\Intel\\Comment.gif", info, eps);
+
+                    mep = new EncoderParameter(sEn, (long)(EncoderValue.FrameDimensionTime));//100L);//
+                    eps.Param[0] = mep;
+
+                    //gep = new EncoderParameter(cEn, (long)(EncoderValue.VersionGif89));//100L);//
+                    //eps.Param[1] = gep;
+
+                    img.SaveAdd(new Bitmap(@"C:\Intel\flash_windows.gif"), eps);
+                }
+            }
+        }
+        /***************************************************************************************************************/
+        private static void VaryQualityLevel()
+        {
+            // Get a bitmap.
+            Bitmap bmp1 = new Bitmap(@"C:\Intel\2e441f6548df98aeae5d8d02080be41b.jpg");
+            ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+
+            // Create an Encoder object based on the GUID
+            // for the Quality parameter category.
+            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+            // Create an EncoderParameters object.
+            // An EncoderParameters object has an array of EncoderParameter
+            // objects. In this case, there is only one
+            // EncoderParameter object in the array.
+            EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            bmp1.Save(@"c:\TestPhotoQualityFifty.jpg", jgpEncoder, myEncoderParameters);
+
+            myEncoderParameter = new EncoderParameter(myEncoder, 100L);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            bmp1.Save(@"c:\TestPhotoQualityHundred.jpg", jgpEncoder, myEncoderParameters);
+
+            // Save the bitmap as a JPG file with zero quality level compression.
+            myEncoderParameter = new EncoderParameter(myEncoder, 0L);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            bmp1.Save(@"c:\TestPhotoQualityZero.jpg", jgpEncoder, myEncoderParameters);
+
+        }
+
+
+        //...
+
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+        /***************************************************************************************************************/
+        private static void WriteCharString()
         {
             int n = 0;
             for (int ctr = 0x20; ctr <= 0x017F; ctr++)
@@ -120,6 +223,72 @@ namespace UIProgram
             return (long)input.Length;
         }
     }
+
+    public class TMethod
+    {
+        public string GetShit<T>() where T : TBase, new()
+        {
+            T t = new T() { ID = 1, Name = "Some One" };
+            return t.Eate();
+        }
+
+        public string GetShit<U>(U u) where U : ITBase
+        {
+            return u.Name;
+        }
+
+        public M GetT<M>() where M : class, ITBase, new()
+        {
+            //return new M() { ID = int.MinValue, Name = "ShitTwo" };
+            return new TModel() { ID = int.MinValue, Name = "ShitTwo" } as M;
+        }
+    }
+
+    public class TModel : TBase
+    {
+        public string Shit() { return this.Name + "：Shit Again!"; }
+    }
+
+    public class TBase : ITBase
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Eate() { return this.Name + "：Go Eate Shit!"; }
+    }
+
+    public interface ITBase
+    {
+        int ID { get; set; }
+        string Name { get; set; }
+        string Eate();
+    }
+
+    /*
+    uses GdiPlus;
+
+    procedure TForm1.FormDblClick(Sender: TObject);
+    var
+      Image: IGPImage;
+      Graphics: IGPGraphics;
+      PageCount: Integer;
+      i: Integer;
+    begin
+      Image := TGPImage.Create('C:\GdiPlusImg\Chicken.gif');
+      PageCount := Image.GetFrameCount(FrameDimensionTime);
+      Graphics := TGPGraphics.Create(Handle);
+      Graphics.Clear($FF000000);
+      for i := 0 to PageCount - 1 do
+      begin
+        Image.SelectActiveFrame(FrameDimensionTime, i);
+        Graphics.DrawImage(Image, 4, 4, Image.Width, Image.Height);
+        Graphics.TranslateTransform(Image.Width + 4, 0);
+        if (i+1) mod 7 = 0 then
+        begin
+          Graphics.TranslateTransform(-Graphics.Transform.OffsetX, Image.Height + 4);
+        end;
+      end;
+    end;
+     */
 
     public class MyValue<T>
     {
